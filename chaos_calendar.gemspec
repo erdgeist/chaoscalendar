@@ -1,7 +1,7 @@
 --- !ruby/object:Gem::Specification 
 name: chaos_calendar
 version: !ruby/object:Gem::Version 
-  version: "0.1"
+  version: "0.1.1"
 platform: ruby
 authors: [erdgeist]
 
