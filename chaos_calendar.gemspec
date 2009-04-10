@@ -41,4 +41,4 @@ rubygems_version: 1.3.1
 signing_key: 
 specification_version: 2
 summary: This gem provides a wrapper for two calls of libical
-test_files:  
+test_files:
