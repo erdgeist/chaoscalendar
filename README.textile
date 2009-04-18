@@ -1,0 +1,38 @@
+h1. Dependencies: 
+
+libxml2
+
+h1. Install:
+
+<pre>
+$ gem sources -a http://gems.github.com (if you haven't already)
+$ sudo gem install erdgeist-chaos_calendar
+</pre>
+
+If the install fails because of missing header files try:
+
+<pre>
+$ sudo gem install erdgeist-chaos_calendar --with-ical-include=/path/to/include/dir
+</pre>
+
+on Mac OS X
+
+<pre>
+$ sudo gem install erdgeist-chaos_calendar --with-ical-include=/opt/local/include
+</pre>
+
+on FreeBSD:
+
+<pre>
+$ sudo gem install erdgeist-chaos_calendar --with-ical-include=/usr/local/include
+</pre>
+
+h1. Usage:
+
+<pre>
+irb
+>> require 'chaos_calendar'
+occ_array = ChaosCalendar::occurrences( "20000101T230000", "20091231T230000", "FREQ=DAILY;COUNT=1200" )
+</pre>
+
+Be aware that the array is in UTC and will be converted to your local timezone before it is used.
