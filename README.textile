@@ -1,8 +1,10 @@
 h1. Dependencies: 
 
-libxml2
+libical
 
 h1. Install:
+
+*First of all make sure you have libical installed. Without it the gem won't install.*
 
 <pre>
 $ gem sources -a http://gems.github.com (if you haven't already)
