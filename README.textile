@@ -14,19 +14,19 @@ $ sudo gem install erdgeist-chaos_calendar
 If the install fails because of missing header files try:
 
 <pre>
-$ sudo gem install erdgeist-chaos_calendar --with-ical-include=/path/to/include/dir
+$ sudo gem install erdgeist-chaos_calendar -- --with-ical-include=/path/to/include/dir
 </pre>
 
 on Mac OS X
 
 <pre>
-$ sudo gem install erdgeist-chaos_calendar --with-ical-include=/opt/local/include
+$ sudo gem install erdgeist-chaos_calendar -- --with-ical-include=/opt/local/include
 </pre>
 
 on FreeBSD:
 
 <pre>
-$ sudo gem install erdgeist-chaos_calendar --with-ical-include=/usr/local/include
+$ sudo gem install erdgeist-chaos_calendar -- --with-ical-include=/usr/local/include
 </pre>
 
 h1. Usage:
