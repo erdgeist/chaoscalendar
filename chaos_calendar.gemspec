@@ -8,16 +8,16 @@ authors: [erdgeist]
 autorequire: libical
 bindir: 
 cert_chain: 
-date: 2009-04-09 00:00:00 +02:00
+date: 2010-08-31 00:00:00 +02:00
 default_executable: 
 dependencies: 
-description: 
+description: This gem wraps two calls into libical that helps generating reoccurrences
 email: erdgeist@erdgeist.org
 executables: []
 
 extensions: 
 - extconf.rb
-extra_rdoc_files: 
+extra_rdoc_files: []
 files: 
 - extconf.rb
 - chaos_calendar.c
@@ -40,4 +40,4 @@ rubygems_version: 1.3.1
 signing_key: 
 specification_version: 2
 summary: This gem provides a wrapper for two calls of libical
-test_files:
+test_files: []
