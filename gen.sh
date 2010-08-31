@@ -1,6 +1,5 @@
 #!/bin/sh
 
-rm -f Makefile *.o *wrap.c*
-swig -ruby chaos_calendar.i
+rm -f Makefile *.o
 ruby extconf.rb
 make

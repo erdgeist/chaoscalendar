@@ -21,7 +21,6 @@ extra_rdoc_files:
 files: 
 - extconf.rb
 - chaos_calendar.c
-- chaos_calendar_wrap.c
 has_rdoc: false
 homepage: http://www.ccc.de/
 post_install_message: 
