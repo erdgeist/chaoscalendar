@@ -1,7 +1,7 @@
 --- !ruby/object:Gem::Specification 
 name: chaos_calendar
 version: !ruby/object:Gem::Version 
-  version: "0.1.2"
+  version: "0.1.3"
 platform: ruby
 authors: [erdgeist]
 
@@ -24,7 +24,7 @@ files:
 has_rdoc: false
 homepage: http://www.ccc.de/
 post_install_message: 
-rdoc_options: 
+rdoc_options: []
 require_paths: 
 - lib
 required_ruby_version: !ruby/object:Gem::Requirement 
@@ -34,7 +34,7 @@ required_ruby_version: !ruby/object:Gem::Requirement
       version: 0.0.0
   version: 
 required_rubygems_version: 
-requirements: 
+requirements: []
 rubyforge_project: 
 rubygems_version: 1.3.1
 signing_key: 

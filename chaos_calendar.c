@@ -46,6 +46,10 @@ VALUE occurrences( VALUE self, VALUE dtstart, VALUE dtend, VALUE rrule ) {
 
   /* Get method ID for Time.tv_sec */
   ID time_tv_sec  = rb_intern( "tv_sec" );
+  ID to_string    = rb_intern( "to_string" );
+
+  if( TYPE( rrule ) != T_STRING && rb_respond_to( rrule, to_string ) )
+    rrule = rb_funcall( rrule, to_string, 0 );
 
   Check_Type(rrule, T_STRING);
   _rrule = RSTRING(rrule)->ptr;
@@ -91,6 +95,11 @@ VALUE occurrences( VALUE self, VALUE dtstart, VALUE dtend, VALUE rrule ) {
 VALUE duration_to_fixnum( VALUE self, VALUE duration ) {
   struct icaldurationtype dur_struct;
   char * _duration;
+
+  ID to_string    = rb_intern( "to_string" );
+
+  if( TYPE( duration ) != T_STRING && rb_respond_to( duration, to_string ) )
+    duration = rb_funcall( duration, to_string, 0 );
 
   Check_Type(duration, T_STRING);
   _duration = RSTRING(duration)->ptr;
