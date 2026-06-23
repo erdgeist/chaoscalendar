@@ -52,7 +52,7 @@ VALUE occurrences( VALUE self, VALUE dtstart, VALUE dtend, VALUE rrule ) {
     rrule = rb_funcall( rrule, to_string, 0 );
 
   Check_Type(rrule, T_STRING);
-  _rrule = RSTRING(rrule)->ptr;
+  _rrule = RSTRING_PTR(rrule);
 
   dtstart = to_time( dtstart, "dtstart" );
   dtend   = to_time( dtend,   "dtend" );
@@ -102,7 +102,7 @@ VALUE duration_to_fixnum( VALUE self, VALUE duration ) {
     duration = rb_funcall( duration, to_string, 0 );
 
   Check_Type(duration, T_STRING);
-  _duration = RSTRING(duration)->ptr;
+  _duration = RSTRING_PTR(duration);
 
   icalerror_clear_errno();
   icalerror_set_error_state( ICAL_MALFORMEDDATA_ERROR, ICAL_ERROR_NONFATAL);
