@@ -38,6 +38,9 @@ static VALUE to_time( VALUE input, char * name ) {
   return Qnil;
 }
 
+
+// TODO: https://www.w3.org/Tools/Ical2html/ical2html.c
+
 VALUE occurrences( VALUE self, VALUE dtstart, VALUE dtend, VALUE rrule ) {
   char * _rrule;
   struct icaltimetype start, end;
@@ -60,11 +63,11 @@ VALUE occurrences( VALUE self, VALUE dtstart, VALUE dtend, VALUE rrule ) {
   /* Apply .tv_sec to our Time objects (if they are Times ...) */
   tv_sec = rb_funcall( dtstart, time_tv_sec, 0 );
   tt     = NUM2INT( tv_sec );
-  start  = icaltime_from_timet( tt, 0 );
+  start  = icaltime_from_timet_with_zone( tt, 0, icaltimezone_get_utc_timezone() );
 
   tv_sec = rb_funcall( dtend, time_tv_sec, 0 );
   tt     = NUM2INT( tv_sec );
-  end    = icaltime_from_timet( tt, 0 );
+  end    = icaltime_from_timet_with_zone( tt, 0, icaltimezone_get_utc_timezone() );
 
   icalerror_clear_errno();
   icalerror_set_error_state( ICAL_MALFORMEDDATA_ERROR, ICAL_ERROR_NONFATAL);
