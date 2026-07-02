@@ -6,13 +6,17 @@
 //#define RRULE   "FREQ=DAILY;UNTIL=20991111T220000;VFOO"
 
 /* Ruby house keeping */
-VALUE occurrences( VALUE self, VALUE dtstart, VALUE dtend, VALUE rrule );
+VALUE occurrences_for_timezone( VALUE self, VALUE dtstart, VALUE dtend, VALUE rrule, VALUE timezone );
+VALUE occurrences( VALUE self, VALUE dtstart, VALUE dtend, VALUE rrule ) {
+  return occurrences_for_timezone( self, dtstart, dtend, rrule, rb_str_new_cstr("UTC") );
+}
 VALUE duration_to_fixnum( VALUE self, VALUE duration );
 static VALUE mChaosCalendar;
 void Init_chaos_calendar() {
   mChaosCalendar = rb_define_module("ChaosCalendar");
 
   rb_define_module_function(mChaosCalendar, "occurrences", occurrences, 3);
+  rb_define_module_function(mChaosCalendar, "occurrences_for_timezone", occurrences_for_timezone, 4);
   rb_define_module_function(mChaosCalendar, "duration_to_fixnum", duration_to_fixnum, 1);
 }
 
@@ -41,9 +45,10 @@ static VALUE to_time( VALUE input, char * name ) {
 
 // TODO: https://www.w3.org/Tools/Ical2html/ical2html.c
 
-VALUE occurrences( VALUE self, VALUE dtstart, VALUE dtend, VALUE rrule ) {
+VALUE occurrences_for_timezone( VALUE self, VALUE dtstart, VALUE dtend, VALUE rrule, VALUE timezone );
   char * _rrule;
   struct icaltimetype start, end;
+  icaltimezone * tz = NULL;
   time_t tt;
   VALUE  tv_sec, occurr = rb_ary_new();
 
@@ -57,17 +62,29 @@ VALUE occurrences( VALUE self, VALUE dtstart, VALUE dtend, VALUE rrule ) {
   Check_Type(rrule, T_STRING);
   _rrule = RSTRING_PTR(rrule);
 
+  /* Resolve timezone — fall back to UTC if nil or unrecognised */
+  if( NIL_P(timezone) ) {
+    tz = icaltimezone_get_utc_timezone();
+  } else {
+    if( TYPE( timezone ) != T_STRING && rb_respond_to( timezone, to_string ) )
+      timezone = rb_funcall( timezone, to_string, 0 );
+    Check_Type(timezone, T_STRING);
+    _timezone = RSTRING_PTR(timezone);
+    tz = icaltimezone_get_builtin_timezone( _timezone );
+    if( !tz ) tz = icaltimezone_get_utc_timezone();
+  }
+
   dtstart = to_time( dtstart, "dtstart" );
   dtend   = to_time( dtend,   "dtend" );
 
   /* Apply .tv_sec to our Time objects (if they are Times ...) */
   tv_sec = rb_funcall( dtstart, time_tv_sec, 0 );
   tt     = NUM2INT( tv_sec );
-  start  = icaltime_from_timet_with_zone( tt, 0, icaltimezone_get_utc_timezone() );
+  start  = icaltime_from_timet_with_zone( tt, 0, tz );
 
   tv_sec = rb_funcall( dtend, time_tv_sec, 0 );
   tt     = NUM2INT( tv_sec );
-  end    = icaltime_from_timet_with_zone( tt, 0, icaltimezone_get_utc_timezone() );
+  end    = icaltime_from_timet_with_zone( tt, 0, tz );
 
   icalerror_clear_errno();
   icalerror_set_error_state( ICAL_MALFORMEDDATA_ERROR, ICAL_ERROR_NONFATAL);
@@ -88,7 +105,7 @@ VALUE occurrences( VALUE self, VALUE dtstart, VALUE dtend, VALUE rrule ) {
       return occurr;
     }
 
-    rb_ary_push( occurr, rb_time_new( icaltime_as_timet( next ), 0 ) );
+    rb_ary_push( occurr, rb_time_new( icaltime_as_timet_with_zone( next, tz ), 0 ) );
   };
 
   icalrecur_iterator_free(ritr);
