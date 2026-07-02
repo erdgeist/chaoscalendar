@@ -45,7 +45,7 @@ static VALUE to_time( VALUE input, char * name ) {
 
 // TODO: https://www.w3.org/Tools/Ical2html/ical2html.c
 
-VALUE occurrences_for_timezone( VALUE self, VALUE dtstart, VALUE dtend, VALUE rrule, VALUE timezone );
+VALUE occurrences_for_timezone( VALUE self, VALUE dtstart, VALUE dtend, VALUE rrule, VALUE timezone ) {
   char * _rrule;
   struct icaltimetype start, end;
   icaltimezone * tz = NULL;
